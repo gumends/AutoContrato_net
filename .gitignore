@@ -1,0 +1,60 @@
+# Compilação
+bin/
+obj/
+out/
+*.exe
+*.dll
+*.pdb
+*.appx
+*.appxsym
+*.log
+
+# Configuração do Visual Studio
+.vscode/
+*.vsconfig
+.vs/
+
+# Configuração do Rider (JetBrains)
+.idea/
+
+# Logs e arquivos de depuração
+*.log
+logs/
+debug/
+testResults/
+
+# Configuração do usuário
+*.suo
+*.user
+*.userosscache
+*.sln.cache
+*.ncrunch*
+*.localhistory
+
+# Dependências
+node_modules/
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.assets.json
+global.json
+
+# Arquivos de publicação e deploy
+publish/
+app.publish/
+
+# Banco de Dados
+*.mdf
+*.ldf
+*.sqlite
+
+# Docker
+**/[Dd]ockerfile*
+**/[Dd]ocker-compose*
+.dockerignore
+
+# Certificados e credenciais
+secrets.json
+.env
+appsettings.Development.json
