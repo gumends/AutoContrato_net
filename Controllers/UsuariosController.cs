@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoContrato_net.Service;
 using AutoContrato_net.Model;
 using AutoContrato_net.DTO;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AutoContrato_net.Controllers
 {
@@ -13,33 +14,52 @@ namespace AutoContrato_net.Controllers
 
         private readonly UsuariosServices _services;
 
-        public UsuariosController(UsuariosServices usuariosServices){
+        public UsuariosController(UsuariosServices usuariosServices)
+        {
             _services = usuariosServices;
         }
-        
+
         [HttpPost]
-        public IActionResult CriarUsuario(UsuarioDTO usuario){
-            var u = _services.CadastraUsuario(usuario);
+        public async Task<IActionResult> CriarUsuario(UsuarioDTO usuario)
+        {
+            var u = await _services.CadastraUsuario(usuario);
             return Ok(u);
         }
 
         [HttpGet]
-        public IActionResult FindAllUsuarios(){
-            var u = _services.findAllUsuarios();
+        public async Task<IActionResult> FindAllUsuarios(int page = 0, int pageSize = 10)
+        {
+            var u = await _services.FindAllUsuarios(page, pageSize);
             return Ok(u);
         }
 
         [HttpGet("{id}")]
-        public IActionResult FindById(Guid id){
+        public IActionResult FindById(Guid id)
+        {
             var u = _services.FindById(id);
             return Ok(u);
         }
-       
+
         [HttpPut("{id}")]
-        public IActionResult UpdateUsuario(UsuarioDTO usuario, Guid id){
-            var u =  _services.AlterarUsuario(usuario, id);
+        public async Task<IActionResult> UpdateUsuario(UsuarioDTO usuario, Guid id)
+        {
+            var u = await _services.UpdateUsuario(usuario, id);
             return Ok(u);
         }
-        
+
+        [HttpGet("Nome/{nome}")]
+        public async Task<IActionResult> FindByNome(string nome = "", int page = 0, int pageSize = 10) 
+        {
+            var u = await _services.FindByNome(nome, page, pageSize);
+
+            return Ok(u);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUsuario(Guid id)
+        {
+            var u = await _services.ExcluirUsuario(id);
+            return Ok(u);
+        }
     }
 }
