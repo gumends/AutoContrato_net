@@ -3,14 +3,15 @@ using AutoContrato_net.DTO;
 using AutoContrato_net.Model;
 using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AutoContrato_net.Service
 {
     public class UsuariosServices
     {
-        private readonly UsuarioContext _context;
+        private readonly AppDbContext _context;
 
-        public UsuariosServices(UsuarioContext context)
+        public UsuariosServices(AppDbContext context)
         {
             _context = context;
         }
@@ -18,6 +19,7 @@ namespace AutoContrato_net.Service
         public async Task<Usuario> CadastraUsuario(UsuarioDTO u)
         {
             Usuario usuario = new Usuario();
+
             usuario.Id = Guid.NewGuid();
             usuario.CPF = u.CPF;
             usuario.Email = u.Email;
@@ -38,19 +40,7 @@ namespace AutoContrato_net.Service
             var users = await u
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .Select(u => new Usuario
-                {
-                    Id = u.Id,
-                    Nome = u.Nome,
-                    CPF = u.CPF,
-                    Email = u.Email,
-                    Senha = u.Senha,
-                    Role = u.Role,
-                    DataCadastro = u.DataCadastro,
-                    UltimaAlteracao = u.UltimaAlteracao
-                })
                 .ToListAsync();
-
             return new PagedList<Usuario>(users, totalItems, page, pageSize);
         }
 
@@ -63,6 +53,11 @@ namespace AutoContrato_net.Service
         public async Task<Usuario> UpdateUsuario(UsuarioDTO u, Guid id)
         {
             var usuario = _context.Usuarios.Find(id);
+
+            if (usuario == null)
+            {
+                return null;
+            }
 
             usuario.Nome = u.Nome;
             usuario.CPF = u.CPF;
@@ -84,17 +79,6 @@ namespace AutoContrato_net.Service
             var users = await u
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .Select(u => new Usuario
-                {
-                    Id = u.Id,
-                    Nome = u.Nome,
-                    CPF = u.CPF,
-                    Email = u.Email,
-                    Senha = u.Senha,
-                    Role = u.Role,
-                    DataCadastro = u.DataCadastro,
-                    UltimaAlteracao = u.UltimaAlteracao
-                })
                 .ToListAsync();
 
             return new PagedList<Usuario>(users, totalItems, page, pageSize);

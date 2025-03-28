@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using AutoContrato_net.Service;
-using AutoContrato_net.Model;
 using AutoContrato_net.DTO;
-using Microsoft.IdentityModel.Tokens;
 
 namespace AutoContrato_net.Controllers
 {
@@ -20,7 +18,7 @@ namespace AutoContrato_net.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CriarUsuario(UsuarioDTO usuario)
+        public async Task<IActionResult> CreateUsuario(UsuarioDTO usuario)
         {
             var u = await _services.CadastraUsuario(usuario);
             return Ok(u);
@@ -44,6 +42,10 @@ namespace AutoContrato_net.Controllers
         public async Task<IActionResult> UpdateUsuario(UsuarioDTO usuario, Guid id)
         {
             var u = await _services.UpdateUsuario(usuario, id);
+            if (u == null)
+            {
+                return NotFound(new { message = "Usuário não encontrado" });
+            }
             return Ok(u);
         }
 
