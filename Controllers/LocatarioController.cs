@@ -32,5 +32,27 @@ namespace AutoContrato_net.Controllers
             var l = await _service.CreateLocatario(locatario);
             return Ok(l);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> FindById(Guid id)
+        {
+            var l = await _service.GetOneLocatario(id);
+            return Ok(l);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateLocatario(LocatarioDTO locatario, Guid id)
+        {
+            var l = await _service.UpdateLocatario(locatario, id);
+            if (l == null) return NotFound(new { message = "Locatário não encontrado" });
+            return Ok(l);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteLocatario(Guid id)
+        {
+            var l = await _service.DesativarLocatario(id);
+            return Ok(l);
+        }
     }
 }

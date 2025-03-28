@@ -54,5 +54,41 @@ namespace AutoContrato_net.Service
 
             return p;
         }
+
+        public async Task<Propriedade> GetOnePropriedade(Guid id){
+            return await _context.Propriedades.FindAsync(id);
+        }
+
+        public async Task<Propriedade> UpdatePropriedade(PropriedadeDTO propriedade, Guid id){
+            var p = await _context.Propriedades.FindAsync(id);
+            if (p == null) return null;
+
+            p.Rua = propriedade.Rua;
+            p.Numero = propriedade.Numero;
+            p.NumCasa = propriedade.NumCasa;
+            p.Bairro = propriedade.Bairro;
+            p.Cep = propriedade.Cep;
+            p.Localizacao = propriedade.Localizacao;
+            if (propriedade.ProprietarioId.HasValue)
+            {
+                p.ProprietarioId = propriedade.ProprietarioId.Value;
+            }
+
+            _context.Propriedades.Update(p);
+            await _context.SaveChangesAsync();
+            return p;
+        }
+
+        public async Task<string> DesativarPropriedade(Guid id){
+            var p = await _context.Propriedades.FindAsync(id);
+
+            p.Status = !p.Status;
+            
+            await _context.SaveChangesAsync();
+
+            return "Status da propriedade alterado com sucesso";
+        }
+
+        
     }
 }

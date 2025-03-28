@@ -28,5 +28,27 @@ namespace AutoContrato_net.Controllers
             var p = await _services.CriarProprietario(proprietario);
             return Ok(p);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProprietario(ProprietarioDTO proprietario, Guid id){
+            var p = await _services.UpdateProprietario(proprietario, id);
+            if (p == null) return NotFound(new { message = "Proprietario não encontrado" });
+            return Ok(p);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProprietario(Guid id){
+            var p = await _services.DesativarProprietario(id);
+            return Ok(p);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> FindById(Guid id){
+            var p = await _services.GetOneProprietario(id);
+            if (p == null) return NotFound(new { message = "Proprietario não encontrado" });
+            return Ok(p);
+        }
+
+        
     }
 }

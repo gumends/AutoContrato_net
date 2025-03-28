@@ -33,7 +33,6 @@ namespace AutoContrato_net.Service
             proprietario.Nome = proprietarioDTO.Nome;
             proprietario.Cpf = proprietarioDTO.Cpf;
             proprietario.Nascimento = proprietarioDTO.Nascimento;
-            // proprietario.Propriedades = proprietarioDTO.Propriedades;
             proprietario.Rg = proprietarioDTO.Rg;
             proprietario.Nacionalidade = proprietarioDTO.Nacionalidade;
 
@@ -41,5 +40,34 @@ namespace AutoContrato_net.Service
             await _context.SaveChangesAsync();
             return proprietario;
         }
+
+        public async Task<Proprietario> GetOneProprietario(Guid id){
+            return await _context.Proprietarios.FindAsync(id);
+        }
+
+        public async Task<Proprietario> UpdateProprietario(ProprietarioDTO proprietarioDTO, Guid id){
+            var p = await _context.Proprietarios.FindAsync(id);
+            if (p == null) return null;
+
+            p.Nome = proprietarioDTO.Nome;
+            p.Cpf = proprietarioDTO.Cpf;
+            p.Nascimento = proprietarioDTO.Nascimento;
+            p.Rg = proprietarioDTO.Rg;
+            p.Nacionalidade = proprietarioDTO.Nacionalidade;
+
+            _context.Proprietarios.Update(p);
+            await _context.SaveChangesAsync();
+            return p;
+        }
+
+        public async Task<string> DesativarProprietario(Guid id){
+            var p = await _context.Proprietarios.FindAsync(id);
+            p.Status = !p.Status;
+            
+            _context.Proprietarios.Update(p);
+            await _context.SaveChangesAsync();
+            return "Status do proprietário alterado com sucesso";
+        }
+
     }
 }

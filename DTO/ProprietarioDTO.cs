@@ -13,7 +13,6 @@ namespace AutoContrato_net.DTO
         public string Rg { get; set; }
         public string Cpf { get; set; }
         public DateTime Nascimento { get; set; }
-        // public virtual ICollection<Propriedade> Propriedades { get; set; } = new List<Propriedade>();
 
     }
 }
