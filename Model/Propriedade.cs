@@ -41,10 +41,8 @@ public class Propriedade
     [Required]
     public Guid ProprietarioId { get; set; }
 
-    // Correção: Propriedade pertence a apenas um Proprietário
     public Proprietario Proprietario { get; set; }
 
-    // Correção: Propriedade pode ter apenas UM Locatário
     public Locatario Locatario { get; set; }
 
     [Column("created_at")]

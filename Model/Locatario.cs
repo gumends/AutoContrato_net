@@ -25,7 +25,6 @@ public class Locatario
     [Required]
     public bool Status { get; set; }
 
-    // Correção: Definindo explicitamente que `Locatario` pertence a uma `Propriedade`
     public Guid PropriedadeId { get; set; }
     public Propriedade Propriedade { get; set; }
 
