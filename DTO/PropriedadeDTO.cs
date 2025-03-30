@@ -23,6 +23,8 @@ namespace AutoContrato_net.DTO
 
         public DateTime? DataPagamento { get; set; }
 
-        public Guid? ProprietarioId { get; set; } // Chave estrangeira
+        public Guid? ProprietarioId { get; set; }
+        
+        public bool status { get; set; }
     }
 }

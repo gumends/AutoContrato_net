@@ -16,5 +16,7 @@ namespace AutoContrato_net.DTO
         public DateTime Nascimento { get; set; }
 
         public Guid? PropriedadeId { get; set; }
+
+        public bool status { get; set; }
     }
 }
