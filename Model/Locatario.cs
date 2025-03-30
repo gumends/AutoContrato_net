@@ -23,13 +23,14 @@ public class Locatario
     public DateTime Nascimento { get; set; }
 
     [Required]
-    public bool Status { get; set; } = true;
+    public bool Status { get; set; }
+
+    // Correção: Definindo explicitamente que `Locatario` pertence a uma `Propriedade`
+    public Guid PropriedadeId { get; set; }
+    public Propriedade Propriedade { get; set; }
 
     [Required]
     public bool Alocado { get; set; } = false;
-
-    public Guid? PropriedadeId { get; set; }
-    public Propriedade Propriedades { get; set; }
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }

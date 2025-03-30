@@ -38,12 +38,14 @@ public class Propriedade
     [Required]
     public bool Alugada { get; set; } = false;
 
-    public Locatario Locatario { get; set; }
-
     [Required]
-    public Guid? ProprietarioId { get; set; } // Chave estrangeira
+    public Guid ProprietarioId { get; set; }
 
-    public Proprietario Proprietario { get; set; } // Relacionamento
+    // Correção: Propriedade pertence a apenas um Proprietário
+    public Proprietario Proprietario { get; set; }
+
+    // Correção: Propriedade pode ter apenas UM Locatário
+    public Locatario Locatario { get; set; }
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
@@ -61,5 +63,5 @@ public class Propriedade
     {
         UpdatedAt = DateTime.UtcNow;
     }
-
 }
+

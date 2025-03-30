@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -30,7 +28,7 @@ public class Proprietario
     [Required]
     public bool Status { get; set; } = true;
 
-    // Remova o PropriedadeId daqui
+    [JsonIgnore]
     public List<Propriedade> Propriedades { get; set; } = new List<Propriedade>();
 
     [Column("created_at")]
