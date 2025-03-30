@@ -23,7 +23,7 @@ namespace AutoContrato_net.Service
         {
             var u = _context.Locatarios
             .Where(p => p.Status == status && p.Nome.Contains(nome))
-            .Include(p => p.Propriedades);
+            .Include(p => p.Propriedade);
 
             int totalItems = await u.CountAsync();
             var locatarios = await u
