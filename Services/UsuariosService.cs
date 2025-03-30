@@ -25,6 +25,8 @@ namespace AutoContrato_net.Service
             usuario.Email = u.Email;
             usuario.Senha = BCrypt.Net.BCrypt.HashPassword(u.Senha);
             usuario.Role = u.Role;
+            usuario.Status = u.Status;
+            usuario.Nome = u.Nome;
 
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
@@ -90,6 +92,11 @@ namespace AutoContrato_net.Service
             _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();
             return "Usuário excluído com sucesso";
+        }
+
+        public async Task<Usuario> FindByEmail(string email)
+        {
+            return await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }

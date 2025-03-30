@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using AutoContrato_net.Service;
 using AutoContrato_net.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutoContrato_net.Controllers
 {
 
     [ApiController]
     [Route("Proprietario")]
+    [Authorize(Roles = "string")]
     public class ProprietarioController : ControllerBase
     {
 
