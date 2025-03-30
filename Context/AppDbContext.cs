@@ -18,17 +18,16 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Locatario>()
-            .HasOne(l => l.Propriedades)
-            .WithOne(p => p.Locatario)
-            .HasForeignKey<Locatario>(l => l.PropriedadeId)
-            .OnDelete(DeleteBehavior.Restrict);
-
         modelBuilder.Entity<Propriedade>()
             .HasOne(p => p.Proprietario)
             .WithMany(pr => pr.Propriedades)
             .HasForeignKey(p => p.ProprietarioId)
             .OnDelete(DeleteBehavior.Restrict);
-    }
 
+        modelBuilder.Entity<Locatario>()
+            .HasOne(l => l.Propriedade)
+            .WithOne(p => p.Locatario)
+            .HasForeignKey<Locatario>(l => l.PropriedadeId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
 }
