@@ -2,16 +2,20 @@ using AutoContrato_net.Context;
 using AutoContrato_net.DTO;
 using AutoContrato_net.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
+using AutoContrato_net.Services;
 
 namespace AutoContrato_net.Service
 {
     public class ProprietarioService
     {
         private readonly AppDbContext _context;
+        private readonly ITokenService _tokenService;
 
-        public ProprietarioService(AppDbContext context)
+        public ProprietarioService(AppDbContext context, ITokenService tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
         }
 
         public async Task<PagedList<Proprietario>> GetAllProprietarios(bool status, string nome, int page, int pageSize)
@@ -27,9 +31,16 @@ namespace AutoContrato_net.Service
             return new PagedList<Proprietario>(proprietarios, totalItems, page, pageSize);
         }
 
-        public async Task<Proprietario> CriarProprietario(ProprietarioDTO proprietarioDTO){
+        public async Task<Proprietario> CriarProprietario(ProprietarioDTO proprietarioDTO, string token)
+        {
             Proprietario proprietario = new Proprietario();
 
+            Guid userId = await _tokenService.GetUserIdFromToken(token);
+
+            if (userId == Guid.Empty) 
+                throw new UnauthorizedAccessException("Token inválido ou expirado.");
+
+            proprietario.UsuarioId = userId;
             proprietario.Nome = proprietarioDTO.Nome;
             proprietario.Cpf = proprietarioDTO.Cpf;
             proprietario.Nascimento = proprietarioDTO.Nascimento;

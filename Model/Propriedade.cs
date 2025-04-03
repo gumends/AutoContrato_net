@@ -37,6 +37,9 @@ public class Propriedade
 
     [Required]
     public bool Alugada { get; set; } = false;
+    
+    [Required]
+    public Guid UsuarioId { get; set; }
 
     [Required]
     public Guid ProprietarioId { get; set; }

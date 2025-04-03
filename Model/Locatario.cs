@@ -30,6 +30,9 @@ public class Locatario
 
     [Required]
     public bool Alocado { get; set; } = false;
+    
+    [Required]
+    public Guid UsuarioId { get; set; }
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }

@@ -13,6 +13,7 @@ namespace AutoContrato_net.Controllers
     {
 
         private readonly ProprietarioService _services;
+        
 
         public ProprietarioController(ProprietarioService services)
         {
@@ -26,8 +27,12 @@ namespace AutoContrato_net.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProprietario(ProprietarioDTO proprietario){
-            var p = await _services.CriarProprietario(proprietario);
+        public async Task<IActionResult> CreateProprietario(
+            ProprietarioDTO proprietario,
+            [FromHeader(Name = "Authorization")] string token
+            ){
+            
+            var p = await _services.CriarProprietario(proprietario, token);
             return Ok(p);
         }
 

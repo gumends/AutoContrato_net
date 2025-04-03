@@ -28,6 +28,9 @@ public class Proprietario
     [Required]
     public bool Status { get; set; } = true;
 
+    [Required]
+    public Guid UsuarioId { get; set; }
+    
     [JsonIgnore]
     public List<Propriedade> Propriedades { get; set; } = new List<Propriedade>();
 

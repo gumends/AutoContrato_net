@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using AutoContrato_net.Context;
 using AutoContrato_net.DTO;
-using AutoContrato_net.Model;
 using AutoContrato_net.Service;
 using Microsoft.IdentityModel.Tokens;
 
@@ -45,7 +39,9 @@ namespace AutoContrato_net.Services
                 audience: audience,
                 claims: new[]{
                     new Claim(type: ClaimTypes.Name, u.Nome),
-                    new Claim(type: ClaimTypes.Role, u.Role)
+                    new Claim(type: ClaimTypes.Role, u.Role.ToString()),
+                    new Claim(type: ClaimTypes.Email, u.Email),
+                    new Claim(type: ClaimTypes.Sid, u.Id.ToString())
                 },
                 expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: signingCredentials
@@ -55,5 +51,50 @@ namespace AutoContrato_net.Services
 
             return token;
         }
+        
+        public ClaimsPrincipal? DecodeToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? string.Empty);
+
+            try
+            {
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = _configuration["Jwt:Issuer"],
+                    ValidAudience = _configuration["Jwt:Audience"],
+                    ClockSkew = TimeSpan.Zero
+                };
+
+                var principal = tokenHandler.ValidateToken(token.Replace("Bearer ", ""), validationParameters, out _);
+                return principal;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<Guid> GetUserIdFromToken(string token)
+        {
+            var principal = DecodeToken(token);
+    
+            if (principal == null) 
+                return Guid.Empty;
+
+            var userIdClaim = principal.FindFirst(ClaimTypes.Sid)?.Value;
+
+            if (!string.IsNullOrEmpty(userIdClaim) && Guid.TryParse(userIdClaim, out Guid userId))
+            {
+                return userId;
+            }
+
+            return Guid.Empty;
+        }
+
     }
 }

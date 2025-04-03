@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using AutoContrato_net.Enum;
 
 namespace AutoContrato_net.Model
 {
@@ -23,11 +25,12 @@ namespace AutoContrato_net.Model
         [EmailAddress]
         public string Email { get; set; }
 
+        [JsonIgnore]
         [Required]
         public string Senha { get; set; }
 
         [Required]
-        public string Role { get; set; }
+        public UserRole Role { get; set; }
 
         public bool Status { get; set; }
         public DateTime DataCadastro { get; set; }

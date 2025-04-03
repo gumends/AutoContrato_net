@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoContrato_net.Enum;
 
 namespace AutoContrato_net.DTO
 {
@@ -15,7 +16,7 @@ namespace AutoContrato_net.DTO
 
         public string Senha { get; set; }
 
-        public string Role { get; set; }
+        public UserRole Role { get; set; }
 
         public bool Status { get; set; }
     }
